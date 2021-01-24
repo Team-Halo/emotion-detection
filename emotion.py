@@ -48,8 +48,8 @@ model = tf.keras.models.model_from_json(open("model.json", "r").read())
 # Load weights
 model.load_weights("model.h5")
 
-emotions = ('frowning', 'disgust', 'fear', 'happy',
-            'concentrating', 'yawning', 'neutral')
+emotions = ('HEYLO_frowning', 'HEYLO_disgust', 'HEYLO_fear', 'HEYLO_happy',
+            'HEYLO_concentrating', 'HEYLO_yawning', 'HEYLO_neutral')
 
 patience = [4] * 6
 sleeping = False
@@ -71,10 +71,12 @@ while True:
             # If 'r' key is pressed, then resume the webcam
             cap = cv2.VideoCapture(0)
             webcam_on = True
+            print("HEYLO_resumed")
         elif stdin_input == "p":
             # If "p" key is pressed, then pause the webcam
             cap.release()
             webcam_on = False
+            print("HEYLO_paused")
         elif stdin_input == "q":
             break
 
@@ -135,6 +137,10 @@ while True:
         max_index = np.argmax(predictions[0])
         predicted_emotion = emotions[max_index]
 
+
+        cv2.putText(test_image, predicted_emotion, (int(x), int(y)),
+                    cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
+
         if max_index == 6:
             patience = [3] * 6
         else:
@@ -143,7 +149,7 @@ while True:
                 print(predicted_emotion)
 
     if sleeping:
-        print("sleeping")
+        print("HEYLO_sleeping")
 
 cap.release()
 cv2.destroyAllWindows
