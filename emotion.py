@@ -1,3 +1,10 @@
+"""
+Stdin: "p" to pause, "r" to resume, "q" to quit
+Stdout: 'frowning', 'disgust', 'fear', 'happy', 'concentrating', 'yawning', 'neutral'
+
+"""
+
+
 import os
 import msvcrt
 import cv2
