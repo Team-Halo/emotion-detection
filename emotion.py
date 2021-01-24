@@ -1,4 +1,5 @@
 import os
+import msvcrt
 import cv2
 import numpy as np
 import tensorflow as tf
@@ -56,17 +57,19 @@ time_interval = 17
 webcam_on = True
 
 while True:
-    pressed_key = cv2.waitKey(10)
-    if pressed_key == ord('r'):
-        # If 'r' key is pressed, then resume the webcam
-        cap = cv2.VideoCapture(0)
-        webcam_on = True
-    elif pressed_key == ord('p'):
-        # If "p" key is pressed, then pause the webcam
-        cap.release()
-        webcam_on = False
-    elif pressed_key == ord('q'):
-        break
+    if msvcrt.kbhit():
+        stdin_input = msvcrt.getch().decode("utf-8")
+        print(stdin_input, stdin_input == "p")
+        if stdin_input == "r":
+            # If 'r' key is pressed, then resume the webcam
+            cap = cv2.VideoCapture(0)
+            webcam_on = True
+        elif stdin_input == "p":
+            # If "p" key is pressed, then pause the webcam
+            cap.release()
+            webcam_on = False
+        elif stdin_input == "q":
+            break
 
     if not webcam_on:
         continue
